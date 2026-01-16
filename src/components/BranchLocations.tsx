@@ -7,11 +7,11 @@ const branches = [
     id: 1,
     name: "New Branch",
     handler: "Naved",
-    coordinates: "27.493025, 80.996530",
-    address: "Main Market, Near Bus Stand",
-    phone: "+91 XXXXX XXXXX",
+    coordinates: "27.4930241, 80.9965207",
+    address: "near Power House, near Rituraj Bakery Ke Pass, Bada Chauraha, Biswan, sitapur",
+    phone: "+91 9569990341",
     hours: "10:00 AM - 8:00 PM",
-    mapUrl: "https://www.google.com/maps?q=27.493025,80.996530",
+    mapUrl: "https://www.google.com/maps/place/Mobile+Hospital+Biswan/@27.4930241,80.9965207,735m/data=!3m1!1e3!4m14!1m7!3m6!1s0x3999254c5bd66387:0x7a94d2f00c106a9b!2sMobile+Hospital+Biswan!8m2!3d27.4930241!4d80.9965207!16s%2Fg%2F11yfq3qzjp!3m5!1s0x3999254c5bd66387:0x7a94d2f00c106a9b!8m2!3d27.4930241!4d80.9965207!16s%2Fg%2F11yfq3qzjp?entry=ttu&g_ep=EgoyMDI2MDExMy4wIKXMDSoASAFQAw%3D%3D",
     isNew: true,
   },
   {
@@ -19,8 +19,8 @@ const branches = [
     name: "Old Branch",
     handler: "Javed",
     coordinates: "27°29'56.8\"N 80°59'35.7\"E",
-    address: "City Center, Main Road",
-    phone: "+91 XXXXX XXXXX",
+    address: "City Center, laharpur chungi, biswan, sitapur",
+    phone: "+91 7318491722",
     hours: "10:00 AM - 9:00 PM",
     mapUrl: "https://www.google.com/maps?q=27.499111,80.993250",
     isNew: false,
@@ -53,7 +53,7 @@ const BranchLocations = () => {
           {/* Map Placeholder */}
           <div className="glass-card rounded-3xl overflow-hidden h-[400px] lg:h-full relative">
             <iframe
-              src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3000!2d80.996530!3d27.493025!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjfCsDI5JzM0LjkiTiA4MMKwNTknNDcuNSJF!5e0!3m2!1sen!2sin!4v1234567890`}
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3551.2869862948443!2d80.99392767550185!3d27.493024176334586!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3999254c5bd66387%3A0x7a94d2f00c106a9b!2sMobile%20Hospital%20Biswan!5e0!3m2!1sen!2sin!4v1737028800000!5m2!1sen!2sin"
               width="100%"
               height="100%"
               style={{ border: 0, filter: "invert(90%) hue-rotate(180deg)" }}

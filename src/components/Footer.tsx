@@ -1,4 +1,4 @@
-import { Smartphone, MapPin, Phone, Mail, Clock, Facebook, Instagram, Twitter, Youtube } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Twitter, Youtube } from "lucide-react";
 
 const Footer = () => {
   const quickLinks = [
@@ -29,10 +29,11 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand */}
           <div className="space-y-6">
-            <div className="flex items-center gap-2">
-              <Smartphone className="h-8 w-8 text-primary" />
-              <span className="text-xl font-bold gradient-text">Mobile Hospital</span>
-            </div>
+            <img 
+              src="/image.png" 
+              alt="Mobile Hospital - We Heal Your Smartphone" 
+              className="h-10 w-auto"
+            />
             <p className="text-muted-foreground">
               Your trusted partner for all mobile needs. Expert repairs, quality phones, and unmatched service.
             </p>
@@ -91,15 +92,15 @@ const Footer = () => {
               <li className="flex items-start gap-3">
                 <MapPin className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
                 <span className="text-muted-foreground">
-                  Main Market, Near Bus Stand
+                  near Power House, Bada Chauraha
                   <br />
-                  Uttar Pradesh, India
+                  Biswan, Sitapur, Uttar Pradesh
                 </span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="h-5 w-5 text-primary flex-shrink-0" />
-                <a href="tel:+919876543210" className="text-muted-foreground hover:text-primary transition-colors">
-                  +91 98765 43210
+                <a href="tel:+919569990341" className="text-muted-foreground hover:text-primary transition-colors">
+                  +91 9569990341
                 </a>
               </li>
               <li className="flex items-center gap-3">
@@ -110,7 +111,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-3">
                 <Clock className="h-5 w-5 text-primary flex-shrink-0" />
-                <span className="text-muted-foreground">10:00 AM - 9:00 PM</span>
+                <span className="text-muted-foreground">10:00 AM - 8:00 PM</span>
               </li>
             </ul>
           </div>
@@ -119,7 +120,7 @@ const Footer = () => {
         {/* Map */}
         <div className="mt-12 rounded-2xl overflow-hidden h-48 glass-card">
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3000!2d80.996530!3d27.493025!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjfCsDI5JzM0LjkiTiA4MMKwNTknNDcuNSJF!5e0!3m2!1sen!2sin!4v1234567890"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3551.2869862948443!2d80.99392767550185!3d27.493024176334586!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3999254c5bd66387%3A0x7a94d2f00c106a9b!2sMobile%20Hospital%20Biswan!5e0!3m2!1sen!2sin!4v1737028800000!5m2!1sen!2sin"
             width="100%"
             height="100%"
             style={{ border: 0, filter: "invert(90%) hue-rotate(180deg)" }}

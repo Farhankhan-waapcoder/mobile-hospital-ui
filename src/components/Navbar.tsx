@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Smartphone } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
@@ -33,12 +33,12 @@ const Navbar = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-2 group">
-            <div className="relative">
-              <Smartphone className="h-8 w-8 text-primary transition-all duration-300 group-hover:scale-110" />
-              <div className="absolute inset-0 bg-primary/30 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </div>
-            <span className="text-xl font-bold gradient-text">Mobile Hospital</span>
+          <a href="#" className="flex items-center group">
+            <img 
+              src="/image.png" 
+              alt="Mobile Hospital - We Heal Your Smartphone" 
+              className="h-12 lg:h-14 w-auto transition-all duration-300 group-hover:scale-105"
+            />
           </a>
 
           {/* Desktop Navigation */}

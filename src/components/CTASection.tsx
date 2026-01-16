@@ -38,8 +38,8 @@ const CTASection = () => {
           <div className="flex items-center justify-center gap-2 text-muted-foreground">
             <Phone className="h-4 w-4 text-primary" />
             <span>Or call us: </span>
-            <a href="tel:+919876543210" className="text-primary font-medium hover:underline">
-              +91 98765 43210
+            <a href="tel:+919569990341" className="text-primary font-medium hover:underline">
+              +91 9569990341
             </a>
           </div>
         </div>
