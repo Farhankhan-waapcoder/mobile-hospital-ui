@@ -5,21 +5,26 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-semibold ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25",
         destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        outline: "border border-primary/50 bg-transparent text-primary hover:bg-primary/10 hover:border-primary",
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        hero: "bg-gradient-to-r from-[hsl(199,89%,48%)] via-[hsl(185,94%,50%)] to-[hsl(160,84%,39%)] text-background font-bold hover:scale-105 hover:shadow-xl hover:shadow-primary/30 active:scale-100",
+        heroOutline: "border-2 border-primary/60 bg-transparent text-foreground hover:bg-primary/10 hover:border-primary hover:shadow-lg hover:shadow-primary/20",
+        neon: "bg-transparent border border-[hsl(185,94%,50%)] text-[hsl(185,94%,50%)] hover:bg-[hsl(185,94%,50%)]/10 hover:shadow-lg hover:shadow-[hsl(185,94%,50%)]/30",
+        glass: "bg-white/5 backdrop-blur-lg border border-white/10 text-foreground hover:bg-white/10 hover:border-white/20",
       },
       size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8",
+        default: "h-11 px-6 py-2",
+        sm: "h-9 rounded-lg px-4",
+        lg: "h-14 rounded-2xl px-8 text-base",
+        xl: "h-16 rounded-2xl px-10 text-lg",
         icon: "h-10 w-10",
       },
     },
