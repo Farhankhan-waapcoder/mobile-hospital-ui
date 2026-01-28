@@ -4,7 +4,7 @@ const services = [
   {
     icon: Wrench,
     title: "Mobile Repair",
-    description: "Screen replacement, battery, motherboard & more",
+    description: "Screen replacement, battery and motherboard repair in Biswan, Sitapur",
     color: "from-primary to-[hsl(185,94%,50%)]",
   },
   {
@@ -22,7 +22,7 @@ const services = [
   {
     icon: Headphones,
     title: "Accessories",
-    description: "Premium cables, chargers, cases & more",
+    description: "Premium cables, chargers, cases and more in Biswan",
     color: "from-primary to-[hsl(280,84%,60%)]",
   },
   {
@@ -31,7 +31,15 @@ const services = [
     description: "Personalize your device with unique designs",
     color: "from-[hsl(280,84%,60%)] to-[hsl(185,94%,50%)]",
   },
+  {
+  icon: Cpu,
+  title: "Forgot Password Unlock",
+  description: "Locked phone unlock and software reset service in Biswan, Sitapur (owner verification required)",
+  color: "from-primary to-[hsl(185,94%,50%)]",
+}
+
 ];
+
 
 const repairTypes = [
   { icon: Monitor, label: "Screen Repair" },
@@ -52,11 +60,15 @@ const ServicesSection = () => {
             Our Services
           </span>
           <h2 className="text-4xl sm:text-5xl font-bold text-foreground">
-            Everything Your Phone <span className="gradient-text">Needs</span>
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            From repairs to upgrades, we've got you covered with professional services and genuine parts.
-          </p>
+  Mobile Repair Services in <span className="gradient-text">Biswan</span>
+</h2>
+
+        <p className="text-muted-foreground max-w-2xl mx-auto">
+  Mobile Hospital provides professional mobile repairing services in 
+  <span className="font-medium"> Biswan, Sitapur</span>, including screen replacement,
+  battery repair, EMI smartphones, and accessories using genuine parts.
+</p>
+
         </div>
 
         {/* Services Grid */}
@@ -79,7 +91,10 @@ const ServicesSection = () => {
         {/* Repair Types */}
         <div className="glass-card p-8 rounded-3xl">
           <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold text-foreground">Expert Repair Services</h3>
+           <h3 className="text-2xl font-bold text-foreground">
+  Expert Mobile Repair in Biswan, Sitapur
+</h3>
+
             <p className="text-muted-foreground mt-2">Our technicians specialize in all types of repairs</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">

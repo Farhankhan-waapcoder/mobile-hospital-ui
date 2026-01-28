@@ -33,19 +33,26 @@ const HeroSection = () => {
                 Expert Mobile Care
               </div>
               
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-tight animate-fade-in" style={{ animationDelay: "0.1s" }}>
-                <span className="gradient-text">Mobile</span>
-                <br />
-                <span className="text-foreground">Hospital</span>
-              </h1>
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-tight animate-fade-in">
+  <span className="gradient-text">Mobile Repair</span>
+  <br />
+  <span className="text-foreground">Hospital in Biswan</span>
+</h1>
+
               
-              <p className="text-xl sm:text-2xl text-muted-foreground font-light animate-fade-in" style={{ animationDelay: "0.2s" }}>
-                We <span className="text-primary font-medium">Heal</span> Your Smartphone
-              </p>
+             <p className="text-xl sm:text-2xl text-muted-foreground font-light animate-fade-in">
+  We <span className="text-primary font-medium">Heal</span> Your Smartphone in
+  <span className="font-medium"> Biswan, Sitapur</span>
+</p>
+
             </div>
 
             <p className="text-muted-foreground max-w-lg mx-auto lg:mx-0 animate-fade-in" style={{ animationDelay: "0.3s" }}>
-              From quick repairs to premium smartphones on EMI, we're your one-stop destination for all mobile needs. Expert technicians, genuine parts, and unmatched service.
+              From quick mobile repairs to premium smartphones on EMI, 
+Mobile Hospital is a trusted mobile repairing shop in 
+<span className="font-medium"> Biswan, Sitapur</span>. 
+Expert technicians, genuine parts, and fast service guaranteed.
+
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-in" style={{ animationDelay: "0.4s" }}>

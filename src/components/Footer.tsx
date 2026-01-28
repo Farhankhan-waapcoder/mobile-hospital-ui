@@ -131,10 +131,17 @@ const Footer = () => {
           />
         </div>
 
+        {/* Disclaimer */}
+        <div className="mt-8 p-4 rounded-xl bg-white/5 border border-white/10">
+          <p className="text-xs text-muted-foreground/70 text-center italic">
+            * Forgot password unlock services are provided only after ownership verification. Data loss may occur.
+          </p>
+        </div>
+
         {/* Copyright */}
         <div className="mt-12 pt-8 border-t border-white/10 text-center">
           <p className="text-muted-foreground">
-            © {new Date().getFullYear()} Mobile Hospital. All rights reserved.
+            © Mobile Hospital – Mobile Repairing Shop in Biswan, Sitapur
           </p>
         </div>
       </div>
