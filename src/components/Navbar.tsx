@@ -1,13 +1,18 @@
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User, LogOut, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { toast } = useToast();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,6 +21,49 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    // Check if user is logged in
+    const user = localStorage.getItem("user");
+    const token = localStorage.getItem("accessToken");
+    if (user && token) {
+      setIsLoggedIn(true);
+      const userData = JSON.parse(user);
+      setUserName(userData.name);
+    } else {
+      setIsLoggedIn(false);
+      setUserName("");
+    }
+
+    // Update cart count
+    const updateCartCount = () => {
+      const cart = localStorage.getItem("cart");
+      if (cart) {
+        const cartItems = JSON.parse(cart);
+        setCartCount(cartItems.length);
+      } else {
+        setCartCount(0);
+      }
+    };
+
+    updateCartCount();
+    // Listen for storage changes
+    window.addEventListener("storage", updateCartCount);
+    return () => window.removeEventListener("storage", updateCartCount);
+  }, [location]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("accessToken");
+    setIsLoggedIn(false);
+    setUserName("");
+    toast({
+      title: "Logged Out",
+      description: "You have been successfully logged out",
+    });
+    navigate("/");
+    setIsMobileMenuOpen(false);
+  };
 
   const navLinks = [
     { href: "#services", label: "Services", isHash: true },
@@ -77,10 +125,49 @@ const Navbar = () => {
           </div>
 
           {/* Desktop CTA */}
-          <div className="hidden lg:flex items-center gap-4">
-            <Button variant="neon" size="sm">
-              Book Repair
-            </Button>
+          <div className="hidden lg:flex items-center gap-3">
+            {/* Cart Icon */}
+            <button
+              onClick={() => navigate("/checkout")}
+              className="relative p-2 text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <ShoppingCart className="h-5 w-5" />
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-primary text-background text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  {cartCount}
+                </span>
+              )}
+            </button>
+
+            {isLoggedIn ? (
+              <>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => navigate("/my-orders")}
+                >
+                  <User className="mr-2 h-4 w-4" />
+                  My Orders
+                </Button>
+                <Button
+                  variant="neon"
+                  size="sm"
+                  onClick={handleLogout}
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <Button
+                variant="neon"
+                size="sm"
+                onClick={() => navigate("/login")}
+              >
+                <User className="mr-2 h-4 w-4" />
+                Login
+              </Button>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -115,9 +202,54 @@ const Navbar = () => {
               {link.label}
             </button>
           ))}
-          <Button variant="hero" className="w-full mt-4">
-            Book Repair
+          
+          <Button
+            variant="outline"
+            className="w-full mt-4"
+            onClick={() => {
+              navigate("/checkout");
+              setIsMobileMenuOpen(false);
+            }}
+          >
+            <ShoppingCart className="mr-2 h-4 w-4" />
+            Cart {cartCount > 0 && `(${cartCount})`}
           </Button>
+
+          {isLoggedIn ? (
+            <>
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={() => {
+                  navigate("/my-orders");
+                  setIsMobileMenuOpen(false);
+                }}
+              >
+                <User className="mr-2 h-4 w-4" />
+                My Orders
+              </Button>
+              <Button
+                variant="hero"
+                className="w-full"
+                onClick={handleLogout}
+              >
+                <LogOut className="mr-2 h-4 w-4" />
+                Logout
+              </Button>
+            </>
+          ) : (
+            <Button
+              variant="hero"
+              className="w-full mt-4"
+              onClick={() => {
+                navigate("/login");
+                setIsMobileMenuOpen(false);
+              }}
+            >
+              <User className="mr-2 h-4 w-4" />
+              Login
+            </Button>
+          )}
         </div>
       </div>
     </nav>

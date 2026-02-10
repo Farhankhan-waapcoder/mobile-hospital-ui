@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Star, ShoppingBag, Package, Tag } from "lucide-react";
+import { ArrowLeft, Star, ShoppingBag, ShoppingCart, Package, Tag } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 interface Product {
   _id: string;
@@ -20,9 +21,11 @@ interface Product {
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -66,6 +69,42 @@ const ProductDetail = () => {
     if (!product) return;
     const message = `Hi! I'm interested in:\n${product.name}\nPrice: ₹${product.price}\n\nIs this available?`;
     window.open(`https://wa.me/919569990341?text=${encodeURIComponent(message)}`, "_blank");
+  };
+
+  const handleAddToCart = () => {
+    if (!product) return;
+
+    const cart = localStorage.getItem("cart");
+    const cartItems = cart ? JSON.parse(cart) : [];
+
+    const existingItemIndex = cartItems.findIndex((item: any) => item.productId === product._id);
+
+    if (existingItemIndex >= 0) {
+      cartItems[existingItemIndex].quantity += quantity;
+    } else {
+      cartItems.push({
+        productId: product._id,
+        name: product.name,
+        price: product.price,
+        quantity: quantity,
+        image: product.images[0] || "",
+      });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cartItems));
+    
+    toast({
+      title: "Added to Cart",
+      description: `${product.name} (${quantity}) added to your cart`,
+    });
+
+    // Dispatch storage event manually for same-window updates
+    window.dispatchEvent(new Event("storage"));
+  };
+
+  const handleBuyNow = () => {
+    handleAddToCart();
+    navigate("/checkout");
   };
 
   if (loading) {
@@ -195,15 +234,43 @@ const ProductDetail = () => {
 
             {/* Stock Info */}
             <div className="glass-card p-6 rounded-xl">
-              <div className="flex items-center gap-3">
-                <Package className="h-5 w-5 text-primary" />
-                <div>
-                  <div className="font-semibold text-foreground">Availability</div>
-                  <div className="text-sm text-muted-foreground">
-                    {product.stock > 0 ? `${product.stock} units in stock` : "Out of stock"}
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <Package className="h-5 w-5 text-primary" />
+                  <div>
+                    <div className="font-semibold text-foreground">Availability</div>
+                    <div className="text-sm text-muted-foreground">
+                      {product.stock > 0 ? `${product.stock} units in stock` : "Out of stock"}
+                    </div>
                   </div>
                 </div>
               </div>
+              
+              {/* Quantity Selector */}
+              {product.stock > 0 && (
+                <div className="flex items-center gap-3">
+                  <span className="text-sm font-medium text-foreground">Quantity:</span>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                      disabled={quantity <= 1}
+                    >
+                      -
+                    </Button>
+                    <span className="w-12 text-center font-semibold">{quantity}</span>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
+                      disabled={quantity >= product.stock}
+                    >
+                      +
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Action Buttons */}
@@ -212,14 +279,32 @@ const ProductDetail = () => {
                 variant="hero"
                 size="lg"
                 className="w-full"
-                onClick={handleWhatsAppInquiry}
+                onClick={handleBuyNow}
                 disabled={product.stock === 0}
               >
-                <ShoppingBag className="mr-2 h-5 w-5" />
-                Inquire on WhatsApp
+                <ShoppingCart className="mr-2 h-5 w-5" />
+                Buy Now
               </Button>
               <Button
                 variant="heroOutline"
+                size="lg"
+                className="w-full"
+                onClick={handleAddToCart}
+                disabled={product.stock === 0}
+              >
+                <ShoppingBag className="mr-2 h-5 w-5" />
+                Add to Cart
+              </Button>
+              <Button
+                variant="heroOutline"
+                size="lg"
+                className="w-full"
+                onClick={handleWhatsAppInquiry}
+              >
+                Inquire on WhatsApp
+              </Button>
+              <Button
+                variant="outline"
                 size="lg"
                 className="w-full"
                 asChild
