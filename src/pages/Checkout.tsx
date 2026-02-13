@@ -1,12 +1,18 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ShoppingCart, Trash2, Phone, MapPin, User, CreditCard } from "lucide-react";
+import { ShoppingCart, Trash2, Phone, MapPin, User, CreditCard, Home, Map } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface CartItem {
   productId: string;
@@ -22,6 +28,16 @@ declare global {
   }
 }
 
+const INDIAN_STATES = [
+  "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
+  "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka",
+  "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram",
+  "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
+  "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal",
+  "Andaman and Nicobar Islands", "Chandigarh", "Dadra and Nagar Haveli and Daman and Diu",
+  "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadweep", "Puducherry"
+];
+
 const Checkout = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -30,7 +46,18 @@ const Checkout = () => {
   const [formData, setFormData] = useState({
     customerName: "",
     customerPhone: "",
-    shippingAddress: "",
+    shippingAddress: {
+      fullName: "",
+      phone: "",
+      houseNo: "",
+      street: "",
+      landmark: "",
+      city: "",
+      district: "",
+      state: "",
+      postalCode: "",
+      country: "India",
+    },
   });
 
   useEffect(() => {
@@ -45,14 +72,40 @@ const Checkout = () => {
       setFormData((prev) => ({
         ...prev,
         customerName: user.name || "",
+        shippingAddress: {
+          ...prev.shippingAddress,
+          fullName: user.name || "",
+        },
       }));
     }
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (name.startsWith("address.")) {
+      const addressField = name.split(".")[1];
+      setFormData({
+        ...formData,
+        shippingAddress: {
+          ...formData.shippingAddress,
+          [addressField]: value,
+        },
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
+  };
+
+  const handleStateChange = (value: string) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      shippingAddress: {
+        ...formData.shippingAddress,
+        state: value,
+      },
     });
   };
 
@@ -83,7 +136,9 @@ const Checkout = () => {
         },
         body: JSON.stringify({
           items,
-          ...formData,
+          customerName: formData.shippingAddress.fullName,
+          customerPhone: formData.shippingAddress.phone,
+          shippingAddress: formData.shippingAddress,
         }),
       });
 
@@ -143,8 +198,8 @@ const Checkout = () => {
             }
           },
           prefill: {
-            name: formData.customerName,
-            contact: formData.customerPhone,
+            name: formData.shippingAddress.fullName,
+            contact: formData.shippingAddress.phone,
           },
           theme: {
             color: "#4f46e5",
@@ -244,18 +299,57 @@ const Checkout = () => {
                   Shipping Details
                 </h2>
                 <form onSubmit={handlePlaceOrder} className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-foreground mb-2">
+                        Full Name <span className="text-red-400">*</span>
+                      </label>
+                      <div className="relative">
+                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                        <Input
+                          type="text"
+                          name="address.fullName"
+                          value={formData.shippingAddress.fullName}
+                          onChange={handleChange}
+                          placeholder="Receiver's full name"
+                          className="pl-10"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-foreground mb-2">
+                        Phone Number <span className="text-red-400">*</span>
+                      </label>
+                      <div className="relative">
+                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                        <Input
+                          type="tel"
+                          name="address.phone"
+                          value={formData.shippingAddress.phone}
+                          onChange={handleChange}
+                          placeholder="10-digit phone number"
+                          className="pl-10"
+                          required
+                          pattern="[0-9]{10}"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">
-                      Full Name
+                      House/Flat/Building No. <span className="text-red-400">*</span>
                     </label>
                     <div className="relative">
-                      <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                      <Home className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                       <Input
                         type="text"
-                        name="customerName"
-                        value={formData.customerName}
+                        name="address.houseNo"
+                        value={formData.shippingAddress.houseNo}
                         onChange={handleChange}
-                        placeholder="Enter your full name"
+                        placeholder="e.g., B-42, Flat 301"
                         className="pl-10"
                         required
                       />
@@ -264,38 +358,122 @@ const Checkout = () => {
 
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">
-                      Phone Number
+                      Street/Road/Area <span className="text-red-400">*</span>
                     </label>
                     <div className="relative">
-                      <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                      <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                       <Input
-                        type="tel"
-                        name="customerPhone"
-                        value={formData.customerPhone}
+                        type="text"
+                        name="address.street"
+                        value={formData.shippingAddress.street}
                         onChange={handleChange}
-                        placeholder="Enter your phone number"
+                        placeholder="Street name, area"
                         className="pl-10"
                         required
-                        pattern="[0-9]{10}"
                       />
                     </div>
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">
-                      Shipping Address
+                      Landmark (Optional)
                     </label>
                     <div className="relative">
-                      <MapPin className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
-                      <Textarea
-                        name="shippingAddress"
-                        value={formData.shippingAddress}
+                      <Map className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                      <Input
+                        type="text"
+                        name="address.landmark"
+                        value={formData.shippingAddress.landmark}
                         onChange={handleChange}
-                        placeholder="Enter your complete shipping address with pincode"
-                        className="pl-10 min-h-[100px]"
+                        placeholder="Nearby landmark"
+                        className="pl-10"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-foreground mb-2">
+                        City <span className="text-red-400">*</span>
+                      </label>
+                      <Input
+                        type="text"
+                        name="address.city"
+                        value={formData.shippingAddress.city}
+                        onChange={handleChange}
+                        placeholder="City/Town"
                         required
                       />
                     </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-foreground mb-2">
+                        District <span className="text-red-400">*</span>
+                      </label>
+                      <Input
+                        type="text"
+                        name="address.district"
+                        value={formData.shippingAddress.district}
+                        onChange={handleChange}
+                        placeholder="District"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-foreground mb-2">
+                        State <span className="text-red-400">*</span>
+                      </label>
+                      <Select
+                        value={formData.shippingAddress.state}
+                        onValueChange={handleStateChange}
+                        required
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select state" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {INDIAN_STATES.map((state) => (
+                            <SelectItem key={state} value={state}>
+                              {state}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-foreground mb-2">
+                        PIN Code <span className="text-red-400">*</span>
+                      </label>
+                      <Input
+                        type="text"
+                        name="address.postalCode"
+                        value={formData.shippingAddress.postalCode}
+                        onChange={handleChange}
+                        placeholder="6-digit PIN code"
+                        required
+                        pattern="[0-9]{6}"
+                        maxLength={6}
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-2">
+                      Country
+                    </label>
+                    <Input
+                      type="text"
+                      name="address.country"
+                      value={formData.shippingAddress.country}
+                      onChange={handleChange}
+                      placeholder="Country"
+                      disabled
+                      className="bg-muted/50"
+                    />
                   </div>
                 </form>
               </div>
@@ -326,7 +504,17 @@ const Checkout = () => {
                   size="lg"
                   className="w-full"
                   onClick={handlePlaceOrder}
-                  disabled={loading || !formData.customerName || !formData.customerPhone || !formData.shippingAddress}
+                  disabled={
+                    loading ||
+                    !formData.shippingAddress.fullName ||
+                    !formData.shippingAddress.phone ||
+                    !formData.shippingAddress.houseNo ||
+                    !formData.shippingAddress.street ||
+                    !formData.shippingAddress.city ||
+                    !formData.shippingAddress.district ||
+                    !formData.shippingAddress.state ||
+                    !formData.shippingAddress.postalCode
+                  }
                 >
                   <CreditCard className="mr-2 h-5 w-5" />
                   {loading ? "Processing..." : "Proceed to Payment"}

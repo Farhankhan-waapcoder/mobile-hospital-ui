@@ -57,7 +57,7 @@ const Products = () => {
       try {
         const params = new URLSearchParams();
         params.append("page", currentPage.toString());
-        params.append("limit", "12");
+        params.append("limit", "10");
         if (selectedCategory) params.append("category", selectedCategory);
         if (searchTerm) params.append("search", searchTerm);
 
@@ -176,9 +176,9 @@ const Products = () => {
 
         {/* Products Grid */}
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
             {[...Array(12)].map((_, i) => (
-              <div key={i} className="glass-card rounded-2xl p-6 animate-pulse">
+              <div key={i} className="glass-card rounded-2xl p-3 md:p-6 animate-pulse">
                 <div className="aspect-square bg-white/10 rounded-xl mb-4" />
                 <div className="h-4 bg-white/10 rounded w-3/4 mb-2" />
                 <div className="h-3 bg-white/10 rounded w-1/2" />
@@ -195,11 +195,11 @@ const Products = () => {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
               {productsData.products.map((product) => (
                 <div
                   key={product._id}
-                  className="glass-card rounded-2xl overflow-hidden hover:border-primary/50 transition-all duration-300 group cursor-pointer"
+                  className="glass-card rounded-xl md:rounded-2xl overflow-hidden hover:border-primary/50 transition-all duration-300 group cursor-pointer"
                   onClick={() => navigate(`/products/${product._id}`)}
                 >
                   {/* Product Image */}
@@ -216,41 +216,41 @@ const Products = () => {
                       </div>
                     )}
                     {/* Category Badge */}
-                    <span className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-medium ${getCategoryBadgeColor(product.category)}`}>
+                    <span className={`absolute top-2 left-2 md:top-4 md:left-4 px-2 py-1 md:px-3 rounded-full text-xs font-medium ${getCategoryBadgeColor(product.category)}`}>
                       {product.category}
                     </span>
                     {/* Stock Badge */}
                     {product.stock < 10 && product.stock > 0 && (
-                      <span className="absolute top-4 right-4 px-3 py-1 rounded-full bg-orange-500/20 text-orange-400 text-xs font-medium">
+                      <span className="absolute top-2 right-2 md:top-4 md:right-4 px-2 py-1 md:px-3 rounded-full bg-orange-500/20 text-orange-400 text-xs font-medium">
                         Only {product.stock} left
                       </span>
                     )}
                     {product.stock === 0 && (
-                      <span className="absolute top-4 right-4 px-3 py-1 rounded-full bg-red-500/20 text-red-400 text-xs font-medium">
+                      <span className="absolute top-2 right-2 md:top-4 md:right-4 px-2 py-1 md:px-3 rounded-full bg-red-500/20 text-red-400 text-xs font-medium">
                         Out of Stock
                       </span>
                     )}
                   </div>
 
                   {/* Product Info */}
-                  <div className="p-6">
-                    <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-1">
+                  <div className="p-3 md:p-6">
+                    <h3 className="text-sm md:text-lg font-semibold text-foreground mb-1 md:mb-2 group-hover:text-primary transition-colors line-clamp-1">
                       {product.name}
                     </h3>
-                    <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                    <p className="text-xs md:text-sm text-muted-foreground mb-2 md:mb-4 line-clamp-2 hidden md:block">
                       {product.description}
                     </p>
                     
                     <div className="flex items-center justify-between">
                       <div>
-                        <span className="text-2xl font-bold text-primary">₹{product.price}</span>
+                        <span className="text-lg md:text-2xl font-bold text-primary">₹{product.price}</span>
                       </div>
-                      <div className="flex items-center gap-1 text-yellow-400">
-                        <Star className="h-4 w-4 fill-current" />
-                        <Star className="h-4 w-4 fill-current" />
-                        <Star className="h-4 w-4 fill-current" />
-                        <Star className="h-4 w-4 fill-current" />
-                        <Star className="h-4 w-4 fill-current opacity-30" />
+                      <div className="flex items-center gap-0.5 md:gap-1 text-yellow-400">
+                        <Star className="h-3 w-3 md:h-4 md:w-4 fill-current" />
+                        <Star className="h-3 w-3 md:h-4 md:w-4 fill-current" />
+                        <Star className="h-3 w-3 md:h-4 md:w-4 fill-current" />
+                        <Star className="h-3 w-3 md:h-4 md:w-4 fill-current" />
+                        <Star className="h-3 w-3 md:h-4 md:w-4 fill-current opacity-30" />
                       </div>
                     </div>
                   </div>
